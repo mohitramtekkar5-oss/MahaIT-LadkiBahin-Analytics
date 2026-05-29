@@ -1,0 +1,18 @@
+Installment_No,Credit_Date,Period_Covered,Amount_Per_Beneficiary_Rs,Beneficiaries_Paid,Notes,Total_Disbursed_Cr_Rs,Cumulative_Disbursed_Cr_Rs
+1,2024-08-19,Jul + Aug 2024,3000,21500000,First disbursal on Raksha Bandhan; Jul & Aug payments combined,6450.0,6450.0
+2,2024-09-15,Sep 2024,1500,22000000,Navratri advance release,3300.0,9750.0
+3,2024-10-05,Oct 2024,1500,23000000,Regular monthly,3450.0,13200.0
+4,2024-11-01,Oct + Nov 2024,3000,23400000,Diwali bonus: two months combined (Oct + Nov),7020.0,20220.0
+5,2024-12-10,Dec 2024,1500,23400000,Regular monthly,3510.0,23730.0
+6,2025-01-08,Jan 2025,1500,23400000,Regular monthly,3510.0,27240.0
+7,2025-02-07,Feb 2025,1500,22500000,~9 lakh excluded for incomplete eKYC,3375.0,30615.0
+8,2025-03-12,Mar 2025,1500,23000000,8th & 9th released together due to processing delay,3450.0,34065.0
+9,2025-03-25,Apr 2025,1500,22800000,Delayed; budget transition period,3420.0,37485.0
+10,2025-04-09,May 2025,1500,22900000,Regular monthly,3435.0,40920.0
+11,2025-06-05,Jun 2025,1500,22500000,26.34 lakh suspended from this installment onward,3375.0,44295.0
+12,2025-07-09,Jul 2025,1500,18000000,Post-suspension; active list reduced,2700.0,46995.0
+13,2025-08-09,Aug 2025,1500,17800000,Raksha Bandhan; 13th installment,2670.0,49665.0
+14,2025-09-05,Sep 2025,1500,17600000,Regular monthly,2640.0,52305.0
+15,2025-10-10,Oct 2025,1500,17500000,Regular monthly; eKYC deadline Nov 18,2625.0,54930.0
+16,2025-11-07,Nov 2025,1500,17500000,Regular monthly,2625.0,57555.0
+17,2025-12-10,Dec 2025,1500,17500000,Regular monthly,2625.0,60180.0
