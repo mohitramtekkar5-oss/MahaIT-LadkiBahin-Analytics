@@ -19,7 +19,7 @@ CREATE TABLE raw.beneficiaries (
     -- Section A: Identification
     Beneficiary_ID                  NVARCHAR(30),
     Application_ID                  NVARCHAR(20),
-    Application_Date                NVARCHAR(20),       -- imported as string, cast later
+    Application_Date                NVARCHAR(20),       
     Application_Mode                NVARCHAR(60),
 
     -- Section B: Location
@@ -30,13 +30,13 @@ CREATE TABLE raw.beneficiaries (
 
     -- Section C: Personal Details
     Declared_Gender                 NVARCHAR(10),
-    Age_at_Application              NVARCHAR(5),        -- cast to TINYINT after validation
+    Age_at_Application              NVARCHAR(5),        
     Birth_Year_Approx               NVARCHAR(6),
     Marital_Status                  NVARCHAR(60),
     Caste_Category                  NVARCHAR(30),
 
     -- Section D: Family & Economic
-    Annual_Family_Income_Rs         NVARCHAR(10),       -- cast to INT after validation
+    Annual_Family_Income_Rs         NVARCHAR(10),       
     Ration_Card_Type                NVARCHAR(40),
     Family_Member_Govt_Employee     NVARCHAR(5),
     Income_Tax_Payer_in_Family      NVARCHAR(5),
