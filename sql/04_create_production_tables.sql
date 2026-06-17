@@ -1,19 +1,3 @@
-/* ============================================================
-   MUKHYAMANTRI MAJHI LADKI BAHIN YOJANA — DATA ANALYTICS
-   Phase 1 | Script 04: Production Tables — Full Schema
-   ============================================================
-   Creates 4 clean, typed, constrained production tables in dbo:
-     dbo.dim_district          — 36 rows  (dimension)
-     dbo.dim_installment       — 17 rows  (dimension)
-     dbo.dim_budget            —  3 rows  (dimension)
-     dbo.fact_beneficiaries    — 500,000 rows (fact)
-
-   Star schema design:
-     fact_beneficiaries → dim_district (District)
-     fact_beneficiaries → dim_installment (First_Payment_Installment_No)
-     dim_installment    → dim_budget (Fiscal_Year)
-   ============================================================ */
-
 USE LadkiBahinDB;
 GO
 
@@ -195,9 +179,6 @@ CREATE TABLE dbo.fact_beneficiaries (
         REFERENCES dbo.dim_district (District)
 );
 GO
-
-PRINT '>> dbo.fact_beneficiaries created with 3 business-rule CHECK constraints.';
-
 -- ═══════════════════════════════════════════════════════════
 -- INDEXES for analytical query performance
 -- ═══════════════════════════════════════════════════════════
@@ -230,12 +211,4 @@ GO
 CREATE NONCLUSTERED INDEX IX_fact_ekyc
     ON dbo.fact_beneficiaries (eKYC_Status)
     INCLUDE (District, Division, Aadhaar_Bank_Linked_NPCI, Application_Status);
-GO
-
-PRINT '>> 5 non-clustered indexes created on fact_beneficiaries.';
-PRINT '';
-PRINT '========================================================';
-PRINT '  Production tables and indexes created successfully.';
-PRINT '  Next: Run 05_load_production.sql to populate them.';
-PRINT '========================================================';
 GO
