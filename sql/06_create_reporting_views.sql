@@ -1,22 +1,3 @@
-/* ============================================================
-   MUKHYAMANTRI MAJHI LADKI BAHIN YOJANA — DATA ANALYTICS
-   Phase 1 | Script 06: Reporting Views (rpt schema)
-   ============================================================
-   Creates 8 pre-built views in the rpt schema.
-   Power BI will connect to these views directly.
-   SSMS queries can also SELECT from these for quick analysis.
-
-   Views created:
-     rpt.v_beneficiary_summary      — full enriched fact (main)
-     rpt.v_district_kpis            — per-district KPI table
-     rpt.v_status_breakdown         — status counts + pcts
-     rpt.v_fraud_analysis           — fraud cases detail
-     rpt.v_installment_tracker      — 17-month disbursement
-     rpt.v_ekyc_dbt_health          — eKYC & DBT pipeline health
-     rpt.v_caste_income_profile     — beneficiary demographics
-     rpt.v_budget_utilisation       — FY-wise budget vs spend
-   ============================================================ */
-
 USE LadkiBahinDB;
 GO
 
@@ -114,12 +95,7 @@ FROM dbo.fact_beneficiaries f
 INNER JOIN dbo.dim_district  d ON f.District = d.District;
 GO
 
-PRINT '>> rpt.v_beneficiary_summary created.';
 
--- ────────────────────────────────────────────────────────────
--- VIEW 2: rpt.v_district_kpis
--- Aggregated KPIs per district — primary Power BI map source
--- ────────────────────────────────────────────────────────────
 CREATE OR ALTER VIEW rpt.v_district_kpis AS
 SELECT
     f.District,
@@ -197,12 +173,6 @@ GROUP BY
     d.Fraud_Risk_Score, d.Estimated_Real_Beneficiaries;
 GO
 
-PRINT '>> rpt.v_district_kpis created.';
-
--- ────────────────────────────────────────────────────────────
--- VIEW 3: rpt.v_status_breakdown
--- Overall status counts with percentages — KPI cards
--- ────────────────────────────────────────────────────────────
 CREATE OR ALTER VIEW rpt.v_status_breakdown AS
 SELECT
     Application_Status,
@@ -215,12 +185,7 @@ FROM dbo.fact_beneficiaries
 GROUP BY Application_Status;
 GO
 
-PRINT '>> rpt.v_status_breakdown created.';
 
--- ────────────────────────────────────────────────────────────
--- VIEW 4: rpt.v_fraud_analysis
--- All fraud and suspension cases with full context
--- ────────────────────────────────────────────────────────────
 CREATE OR ALTER VIEW rpt.v_fraud_analysis AS
 SELECT
     f.Beneficiary_ID,
@@ -261,12 +226,6 @@ WHERE f.Application_Status != 'Active'
    OR f.Fraud_Type_Detected != 'None';
 GO
 
-PRINT '>> rpt.v_fraud_analysis created.';
-
--- ────────────────────────────────────────────────────────────
--- VIEW 5: rpt.v_installment_tracker
--- 17-installment disbursement timeline for trend analysis
--- ────────────────────────────────────────────────────────────
 CREATE OR ALTER VIEW rpt.v_installment_tracker AS
 SELECT
     i.Installment_No,
@@ -293,12 +252,6 @@ FROM dbo.dim_installment i
 INNER JOIN dbo.dim_budget b ON i.Fiscal_Year = b.Fiscal_Year;
 GO
 
-PRINT '>> rpt.v_installment_tracker created.';
-
--- ────────────────────────────────────────────────────────────
--- VIEW 6: rpt.v_ekyc_dbt_health
--- eKYC and DBT pipeline health by district and bank
--- ────────────────────────────────────────────────────────────
 CREATE OR ALTER VIEW rpt.v_ekyc_dbt_health AS
 SELECT
     f.District,
@@ -325,12 +278,6 @@ GROUP BY
     f.Aadhaar_Bank_Linked_NPCI, f.DBT_Transfer_Status;
 GO
 
-PRINT '>> rpt.v_ekyc_dbt_health created.';
-
--- ────────────────────────────────────────────────────────────
--- VIEW 7: rpt.v_caste_income_profile
--- Beneficiary demographic profile for equity analysis
--- ────────────────────────────────────────────────────────────
 CREATE OR ALTER VIEW rpt.v_caste_income_profile AS
 SELECT
     f.Caste_Category,
@@ -378,12 +325,6 @@ GROUP BY
     END;
 GO
 
-PRINT '>> rpt.v_caste_income_profile created.';
-
--- ────────────────────────────────────────────────────────────
--- VIEW 8: rpt.v_budget_utilisation
--- FY-wise budget allocation vs. spend — executive summary
--- ────────────────────────────────────────────────────────────
 CREATE OR ALTER VIEW rpt.v_budget_utilisation AS
 SELECT
     b.Fiscal_Year,
@@ -412,10 +353,3 @@ SELECT
 FROM dbo.dim_budget b;
 GO
 
-PRINT '>> rpt.v_budget_utilisation created.';
-PRINT '';
-PRINT '========================================================';
-PRINT '  All 8 reporting views created in [rpt] schema.';
-PRINT '  Next: Run 07_audit_and_quality.sql for DQ checks.';
-PRINT '========================================================';
-GO
