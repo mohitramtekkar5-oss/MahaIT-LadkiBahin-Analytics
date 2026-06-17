@@ -1,40 +1,6 @@
-/* ============================================================
-   MUKHYAMANTRI MAJHI LADKI BAHIN YOJANA — DATA ANALYTICS
-   Phase 2 | Data Cleaning & Deep SQL Analysis
-   ============================================================
-   12 analytical queries across 6 topics:
-     Topic 1: Suspension & Rejection Analysis     (Q1–Q2)
-     Topic 2: District Coverage & Performance     (Q3–Q4)
-     Topic 3: Fraud Detection Patterns            (Q5–Q6)
-     Topic 4: DBT & eKYC Pipeline Health          (Q7–Q8)
-     Topic 5: Disbursement Timeline Analysis      (Q9–Q10)
-     Topic 6: Demographic & Equity Analysis       (Q11–Q12)
-
-   Key Findings Summary:
-     Q1  → eKYC failure is #1 suspension reason (16,487 cases)
-     Q2  → Amravati Division has worst suspension rate
-     Q3  → Akola has lowest district active rate
-     Q4  → Konkan ranks #1, Amravati last on performance
-     Q5  → Male registrants caused highest fraud loss in Rs
-     Q6  → Gram Panchayat Office riskiest channel; Nari Shakti App safest
-     Q7  → Punjab National Bank has worst DBT success rate
-     Q8  → eKYC gap driven by application mode, not just area type
-     Q9  → Feb 2025 had biggest beneficiary drop (gradual eKYC erosion)
-     Q10 → October applicants received 1.06 fewer installments than July
-     Q11 → ST women have lowest active rate — most underserved group
-     Q12 → No critical marital/ration combination — gap is geographic
-   ============================================================ */
-
 USE LadkiBahinDB;
 GO
 
--- ============================================================
--- TOPIC 1: SUSPENSION & REJECTION ANALYSIS
--- ============================================================
-
--- ── Q1: Suspension reason breakdown
--- What is getting people suspended?
--- ────────────────────────────────────────────────────────────
 SELECT
     Suspension_Rejection_Reason                             AS Suspension_Reason,
     COUNT(*)                                                AS Affected_Beneficiaries,
@@ -53,9 +19,6 @@ GROUP BY Suspension_Rejection_Reason
 ORDER BY Affected_Beneficiaries DESC;
 
 
--- ── Q2: Suspension rate by Division
--- Which division has the worst compliance?
--- ────────────────────────────────────────────────────────────
 SELECT
     Division,
     COUNT(*)                                                AS Total_Applications,
@@ -85,13 +48,6 @@ GROUP BY Division
 ORDER BY Suspension_Rate_Pct DESC;
 
 
--- ============================================================
--- TOPIC 2: DISTRICT COVERAGE & PERFORMANCE
--- ============================================================
-
--- ── Q3: Bottom 10 districts by Active Rate
--- Which districts are most underserving eligible women?
--- ────────────────────────────────────────────────────────────
 SELECT
     District,
     Division,
@@ -113,9 +69,6 @@ ORDER BY Active_Rate_Pct ASC
 OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY;
 
 
--- ── Q4: Division-level performance scorecard
--- Aggregated KPIs at division level for executive reporting
--- ────────────────────────────────────────────────────────────
 SELECT
     Division,
     SUM(Total_Applications)                                 AS Total_Applications,
@@ -153,13 +106,6 @@ GROUP BY Division
 ORDER BY Performance_Rank;
 
 
--- ============================================================
--- TOPIC 3: FRAUD DETECTION PATTERNS
--- ============================================================
-
--- ── Q5: Fraud profile analysis
--- Who are the fraudsters and what did it cost the exchequer?
--- ────────────────────────────────────────────────────────────
 SELECT
     Fraud_Type_Detected,
     District,
@@ -182,9 +128,6 @@ GROUP BY
 ORDER BY Total_Loss_Rs DESC;
 
 
--- ── Q6: Fraud risk by application mode
--- Do certain registration channels have higher fraud rates?
--- ────────────────────────────────────────────────────────────
 SELECT
     Application_Mode,
     COUNT(*)                                                AS Total_Applications,
@@ -224,13 +167,6 @@ GROUP BY Application_Mode
 ORDER BY Fraud_Rate_Pct DESC;
 
 
--- ============================================================
--- TOPIC 4: DBT & eKYC PIPELINE HEALTH
--- ============================================================
-
--- ── Q7: Bank-wise DBT failure analysis
--- Which banks are failing to credit beneficiaries?
--- ────────────────────────────────────────────────────────────
 SELECT
     Bank_Name,
     COUNT(*)                                                AS Total_Beneficiaries,
@@ -264,9 +200,7 @@ GROUP BY Bank_Name
 ORDER BY DBT_Success_Rate_Pct ASC;
 
 
--- ── Q8: eKYC compliance — rural vs urban by division
--- Does area type determine eKYC success?
--- ────────────────────────────────────────────────────────────
+
 SELECT
     Division,
     Area_Type,
@@ -303,13 +237,6 @@ GROUP BY GROUPING SETS (
 ORDER BY Division, Area_Type;
 
 
--- ============================================================
--- TOPIC 5: DISBURSEMENT TIMELINE ANALYSIS
--- ============================================================
-
--- ── Q9: Month-on-month beneficiary and disbursement trend
--- How did the scheme evolve across 17 installments?
--- ────────────────────────────────────────────────────────────
 SELECT
     Installment_No,
     Month_Label,
@@ -340,9 +267,6 @@ FROM rpt.v_installment_tracker
 ORDER BY Installment_No;
 
 
--- ── Q10: Cohort analysis — early vs late applicants
--- Do July applicants receive significantly more than October?
--- ────────────────────────────────────────────────────────────
 SELECT
     DATENAME(MONTH, Application_Date)
         + ' ' + CAST(YEAR(Application_Date) AS VARCHAR) AS Application_Month,
@@ -370,13 +294,6 @@ GROUP BY
 ORDER BY Month_Num;
 
 
--- ============================================================
--- TOPIC 6: DEMOGRAPHIC & EQUITY ANALYSIS
--- ============================================================
-
--- ── Q11: Caste-wise equity analysis
--- Are all caste categories being served equally?
--- ────────────────────────────────────────────────────────────
 SELECT
     Caste_Category,
     COUNT(*)                                                AS Total_Beneficiaries,
@@ -419,10 +336,6 @@ GROUP BY Caste_Category
 ORDER BY Active_Rate_Pct DESC;
 
 
--- ── Q12: Marital status vs ration card — vulnerability matrix
--- Which combination of marital status + economic category
--- is most underserved? Subquery pattern to allow CASE on aggregates.
--- ────────────────────────────────────────────────────────────
 SELECT
     Marital_Status,
     Ration_Card_Type,
