@@ -1,10 +1,6 @@
 USE LadkiBahinDB;
 GO
 
--- ────────────────────────────────────────────────────────────
--- VIEW 1: rpt.v_beneficiary_summary
--- The main analytical view — enriched fact with all dimensions
--- ────────────────────────────────────────────────────────────
 CREATE OR ALTER VIEW rpt.v_beneficiary_summary AS
 SELECT
     -- Identification
