@@ -1,26 +1,9 @@
-/* ============================================================
-   MUKHYAMANTRI MAJHI LADKI BAHIN YOJANA — DATA ANALYTICS
-   Phase 1 | Script 05: ETL — Staging → Production Tables
-   ============================================================
-   Reads from raw.* staging tables, casts all data types,
-   applies business-rule transformations, and inserts into
-   the clean dbo.* production tables.
-
-   Load order (respects FK constraints):
-     1. dbo.dim_budget           (no dependencies)
-     2. dbo.dim_district         (no dependencies)
-     3. dbo.dim_installment      (→ dim_budget)
-     4. dbo.fact_beneficiaries   (→ dim_district)
-   ============================================================ */
-
 USE LadkiBahinDB;
 GO
 
 -- ═══════════════════════════════════════════════════════════
 -- STEP 1: Load dbo.dim_budget
 -- ═══════════════════════════════════════════════════════════
-PRINT '>> [1/4] Loading dbo.dim_budget...';
-
 INSERT INTO dbo.dim_budget (
     Fiscal_Year, Budget_Allocated_Cr_Rs, Actual_Spent_Cr_Rs,
     Utilisation_Pct, Avg_Active_Beneficiaries_Cr,
@@ -46,8 +29,6 @@ PRINT '   Rows inserted: ' + CAST(@@ROWCOUNT AS VARCHAR);
 -- ═══════════════════════════════════════════════════════════
 -- STEP 2: Load dbo.dim_district
 -- ═══════════════════════════════════════════════════════════
-PRINT '>> [2/4] Loading dbo.dim_district...';
-
 INSERT INTO dbo.dim_district (
     District, Division, Approx_Urban_Pct, Fraud_Risk_Score,
     Synthetic_Total_Applications, Synthetic_Active,
@@ -80,8 +61,6 @@ PRINT '   Rows inserted: ' + CAST(@@ROWCOUNT AS VARCHAR);
 -- STEP 3: Load dbo.dim_installment
 -- Fiscal_Year derived from Credit_Date
 -- ═══════════════════════════════════════════════════════════
-PRINT '>> [3/4] Loading dbo.dim_installment...';
-
 INSERT INTO dbo.dim_installment (
     Installment_No, Credit_Date, Period_Covered,
     Amount_Per_Beneficiary_Rs, Beneficiaries_Paid,
@@ -212,9 +191,6 @@ PRINT '   Rows inserted: ' + CAST(@@ROWCOUNT AS VARCHAR);
 -- ═══════════════════════════════════════════════════════════
 -- FINAL VALIDATION
 -- ═══════════════════════════════════════════════════════════
-PRINT '';
-PRINT '========== PRODUCTION TABLE VALIDATION ==========';
-
 SELECT
     'dbo.dim_budget'       AS [Table], COUNT(*) AS [Row_Count] FROM dbo.dim_budget
 UNION ALL SELECT
@@ -245,10 +221,3 @@ SELECT
 FROM dbo.fact_beneficiaries
 WHERE Fraud_Type_Detected != 'None'
 GROUP BY Fraud_Type_Detected;
-
-PRINT '';
-PRINT '========================================================';
-PRINT '  ETL complete. All 4 production tables populated.';
-PRINT '  Next: Run 06_views.sql to create reporting views.';
-PRINT '========================================================';
-GO
