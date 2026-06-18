@@ -1,12 +1,3 @@
-/* ============================================================
-   MUKHYAMANTRI MAJHI LADKI BAHIN YOJANA — DATA ANALYTICS
-   Phase 1 | Script 02: Staging (Raw) Tables
-   ============================================================
-   Purpose : Create raw.* staging tables that exactly mirror
-             the CSV column structure — no constraints yet.
-             BULK INSERT / Import Wizard loads data here first.
-   ============================================================ */
-
 USE LadkiBahinDB;
 GO
 
