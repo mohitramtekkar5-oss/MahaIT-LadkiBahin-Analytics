@@ -1,15 +1,3 @@
-/* ============================================================
-   MUKHYAMANTRI MAJHI LADKI BAHIN YOJANA — DATA ANALYTICS
-   Phase 1 | Script 01: Database & Schema Creation
-   ============================================================
-   Author  : Portfolio Project (MahaIT Interview)
-   Created : 2024
-   Target  : SQL Server 2019+ / SSMS 18+
-
-   Run this script FIRST before any other script.
-   Creates the database, schemas, and sets config options.
-   ============================================================ */
-
 USE master;
 GO
 
